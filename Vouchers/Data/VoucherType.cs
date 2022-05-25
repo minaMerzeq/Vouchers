@@ -10,4 +10,12 @@ namespace Vouchers.Data
         Discount,
         Gift,
     }
+
+    public enum VoucherCriteria
+    {
+        Normal,
+        Silver,
+        Gold,
+        Platinum,
+    }
 }
