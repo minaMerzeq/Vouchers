@@ -15,5 +15,6 @@ namespace Vouchers.Data
         }
 
         public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<Merchant> Merchants { get; set; }
     }
 }

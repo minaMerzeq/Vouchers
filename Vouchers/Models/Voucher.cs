@@ -30,5 +30,9 @@ namespace Vouchers.Models
 
         [Required]
         public int AvailableNumberOfTimes { get; set; }
+
+        public int MerchantId { get; set; }
+
+        public Merchant Merchant { get; set; }
     }
 }
