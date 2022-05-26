@@ -34,6 +34,7 @@ namespace Vouchers
             services.AddScoped<IMerchantRepo, MerchantRepo>();
 
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vouchers", Version = "v1" });
