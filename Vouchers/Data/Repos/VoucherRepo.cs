@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,12 +36,12 @@ namespace Vouchers.Data.Repos
 
         public IEnumerable<Voucher> GetAllVouchers()
         {
-            return _context.Vouchers.ToList();
+            return _context.Vouchers.Include(v => v.Merchant).ToList();
         }
 
         public Voucher GetVoucherById(int id)
         {
-            return _context.Vouchers.FirstOrDefault(v => v.Id == id);
+            return _context.Vouchers.Include(v => v.Merchant).FirstOrDefault(v => v.Id == id);
         }
 
         public bool SaveChanges()
