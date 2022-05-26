@@ -13,7 +13,7 @@ namespace Vouchers.Data
 
     public enum VoucherCriteria
     {
-        Normal,
+        Basic,
         Silver,
         Gold,
         Platinum,
