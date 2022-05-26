@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vouchers.Data;
+using Vouchers.Data.Repos;
 
 namespace Vouchers
 {
@@ -29,6 +30,9 @@ namespace Vouchers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IVoucherRepo, VoucherRepo>();
+            services.AddScoped<IMerchantRepo, MerchantRepo>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
