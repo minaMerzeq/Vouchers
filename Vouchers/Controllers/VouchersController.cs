@@ -1,0 +1,92 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Vouchers.Data.Repos;
+using Vouchers.Dtos;
+using Vouchers.Models;
+
+namespace Vouchers.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class VouchersController : ControllerBase
+    {
+        private readonly IVoucherRepo _repo;
+        private readonly IMapper _mapper;
+
+        public VouchersController(IVoucherRepo repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<VoucherReadDto>> GetAllVouchers()
+        {
+            var vouchers = _repo.GetAllVouchers();
+
+            return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<VoucherReadDto>> GetVoucherById(int id)
+        {
+            var voucher = _repo.GetVoucherById(id);
+
+            if (voucher != null)
+            {
+                return Ok(_mapper.Map<VoucherReadDto>(voucher));
+            }
+
+            return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateVoucher(int id, [FromBody] VoucherCreateDto voucherCreateDto)
+        {
+            if (voucherCreateDto == null)
+            {
+                return BadRequest();
+            }
+
+            var voucher = _mapper.Map<Voucher>(voucherCreateDto);
+            voucher.Id = id;
+
+            _repo.UpdateVoucher(voucher);
+            _repo.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteVoucher(int id)
+        {
+            _repo.DeleteVoucher(id);
+            if (_repo.SaveChanges())
+            {
+                return Ok();
+            }
+                
+            return NotFound();
+        }
+
+        [HttpPost]
+        public ActionResult CreateVoucher([FromBody] VoucherCreateDto voucherCreateDto)
+        {
+            if (voucherCreateDto == null)
+            {
+                return BadRequest();
+            }
+            var voucher = _mapper.Map<Voucher>(voucherCreateDto);
+
+            _repo.CreateVoucher(voucher);
+            _repo.SaveChanges();
+
+            var createdVoucher = _repo.GetVoucherById(voucher.Id);
+            return Created("/api/Vouchers/" + createdVoucher.Id, _mapper.Map<VoucherReadDto>(createdVoucher));
+        }
+    }
+}

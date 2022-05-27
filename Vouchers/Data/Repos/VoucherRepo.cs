@@ -46,7 +46,7 @@ namespace Vouchers.Data.Repos
 
         public bool SaveChanges()
         {
-            return _context.SaveChanges() >= 0;
+            return _context.SaveChanges() > 0;
         }
 
         public void UpdateVoucher(Voucher voucher)

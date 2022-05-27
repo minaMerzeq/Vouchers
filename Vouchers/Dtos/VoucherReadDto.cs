@@ -18,9 +18,9 @@ namespace Vouchers.Dtos
 
         public string Image { get; set; }
 
-        public VoucherType Type { get; set; }
+        public string Type { get; set; }
 
-        public VoucherCriteria Criteria { get; set; }
+        public string Criteria { get; set; }
 
         public int AvailableNumberOfTimes { get; set; }
 
