@@ -32,6 +32,32 @@ namespace Vouchers.Controllers
             return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
         }
 
+        [HttpGet("Search")]
+        public ActionResult<IEnumerable<VoucherReadDto>> SearchForVouchersByTitleOrDescription(string search)
+        {
+            var vouchers = _repo.GetAllVouchers().Where(v => v.Title.Contains(search) || v.Description.Contains(search));
+
+            return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
+        }
+
+        [HttpGet("Filter")]
+        public ActionResult<IEnumerable<VoucherReadDto>> FilterVouchersByTypeOrMerchant(int? type, int? merchantId)
+        {
+            var vouchers = _repo.GetAllVouchers();
+
+            if (type != null)
+            {
+                vouchers = vouchers.Where(v => (int)v.Type == type);
+            }
+
+            if (merchantId != null)
+            {
+                vouchers = vouchers.Where(v => v.MerchantId == merchantId);
+            }
+
+            return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
+        }
+
         [HttpGet("{id}", Name = "GetVoucherById")]
         public ActionResult<IEnumerable<VoucherReadDto>> GetVoucherById(int id)
         {
