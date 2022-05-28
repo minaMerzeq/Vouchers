@@ -32,7 +32,7 @@ namespace Vouchers.Controllers
             return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetVoucherById")]
         public ActionResult<IEnumerable<VoucherReadDto>> GetVoucherById(int id)
         {
             var voucher = _repo.GetVoucherById(id);
@@ -46,7 +46,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateVoucher(int id, [FromBody] VoucherCreateDto voucherCreateDto)
+        public ActionResult UpdateVoucher(int id, VoucherCreateDto voucherCreateDto)
         {
             if (voucherCreateDto == null)
             {
@@ -74,7 +74,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVoucher([FromBody] VoucherCreateDto voucherCreateDto)
+        public ActionResult<VoucherReadDto> CreateVoucher(VoucherCreateDto voucherCreateDto)
         {
             if (voucherCreateDto == null)
             {
@@ -86,7 +86,7 @@ namespace Vouchers.Controllers
             _repo.SaveChanges();
 
             var createdVoucher = _repo.GetVoucherById(voucher.Id);
-            return Created("/api/Vouchers/" + createdVoucher.Id, _mapper.Map<VoucherReadDto>(createdVoucher));
+            return CreatedAtRoute(nameof(GetVoucherById), new { Id = createdVoucher.Id }, _mapper.Map<VoucherReadDto>(createdVoucher));
         }
     }
 }
