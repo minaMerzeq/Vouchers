@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ namespace Vouchers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VouchersController : ControllerBase
     {
         private readonly IVoucherRepo _repo;
@@ -33,6 +35,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpGet("Search")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<IEnumerable<VoucherReadDto>> SearchForVouchersByTitleOrDescription(string search)
         {
             var vouchers = _repo.GetAllVouchers().Where(v => v.Title.Contains(search) || v.Description.Contains(search));
@@ -41,6 +44,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpGet("Filter")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<IEnumerable<VoucherReadDto>> FilterVouchersByTypeOrMerchant(int? type, int? merchantId)
         {
             var vouchers = _repo.GetAllVouchers();
@@ -72,6 +76,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult UpdateVoucher(int id, VoucherCreateDto voucherCreateDto)
         {
             if (voucherCreateDto == null)
@@ -88,6 +93,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteVoucher(int id)
         {
             _repo.DeleteVoucher(id);
@@ -100,6 +106,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult<VoucherReadDto> CreateVoucher(VoucherCreateDto voucherCreateDto)
         {
             if (voucherCreateDto == null)
