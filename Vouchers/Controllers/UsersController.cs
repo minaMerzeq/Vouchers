@@ -63,7 +63,10 @@ namespace Vouchers.Controllers
                 return GenerateTokenResponse(checkPasswordRes.UserId, userSignDto.Email, checkPasswordRes.UserRole);
             }
 
-            return Unauthorized();
+            return Ok(new { 
+                success = false,
+                message = "wrong email or password !"
+            });
         }
 
         private async Task<CheckPasswordResult> CheckPassword(UserSignDto creds)
