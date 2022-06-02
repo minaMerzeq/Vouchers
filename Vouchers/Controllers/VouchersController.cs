@@ -34,18 +34,9 @@ namespace Vouchers.Controllers
             return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
         }
 
-        [HttpGet("Search")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<IEnumerable<VoucherReadDto>> SearchForVouchersByTitleOrDescription(string search)
-        {
-            var vouchers = _repo.GetAllVouchers().Where(v => v.Title.Contains(search) || v.Description.Contains(search));
-
-            return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
-        }
-
         [HttpGet("Filter")]
         [Authorize(Roles = "Admin")]
-        public ActionResult<IEnumerable<VoucherReadDto>> FilterVouchersByTypeOrMerchant(int? type, int? merchantId)
+        public ActionResult<IEnumerable<VoucherReadDto>> FilterVouchersByTypeOrMerchant(int? type, int? merchantId, string search)
         {
             var vouchers = _repo.GetAllVouchers();
 
@@ -57,6 +48,11 @@ namespace Vouchers.Controllers
             if (merchantId != null)
             {
                 vouchers = vouchers.Where(v => v.MerchantId == merchantId);
+            }
+
+            if (search != null)
+            {
+                vouchers = vouchers.Where(v => v.Title.Contains(search) || v.Description.Contains(search));
             }
 
             return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
