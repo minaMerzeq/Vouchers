@@ -10,7 +10,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Vouchers.Data.Repos;
 using Vouchers.Dtos;
+using Vouchers.Models;
 
 namespace Vouchers.Controllers
 {
@@ -22,13 +24,15 @@ namespace Vouchers.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
+        private readonly IPurchaseRepo _purchaseRepo;
 
-        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration config)
+        public UsersController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IPurchaseRepo purchaseRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
+            _purchaseRepo = purchaseRepo;
         }
 
         [HttpPost("Register")]
@@ -39,11 +43,16 @@ namespace Vouchers.Controllers
 
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByEmailAsync(userSignDto.Email);
+
                 if (userSignDto.Email == "admin@gmail.com")
                 {
                     await CreateAdminRoleIfNotExists();
-                    var user = await _userManager.FindByEmailAsync(userSignDto.Email);
                     await _userManager.AddToRoleAsync(user, "Admin");
+                }
+                else
+                {
+                    _purchaseRepo.AddUserPoints(new UserPoints { Points = 500, UserId = user.Id });
                 }
 
                 return await Login(userSignDto);

@@ -43,6 +43,7 @@ namespace Vouchers
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScoped<IVoucherRepo, VoucherRepo>();
             services.AddScoped<IMerchantRepo, MerchantRepo>();
+            services.AddScoped<IPurchaseRepo, PurchaseRepo>();
 
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
