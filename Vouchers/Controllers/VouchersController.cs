@@ -83,7 +83,7 @@ namespace Vouchers.Controllers
 
             if (search != null)
             {
-                vouchers = vouchers.Where(v => v.Title.Contains(search) || v.Description.Contains(search));
+                vouchers = vouchers.Where(v => v.Title.ToLower().Contains(search.ToLower()) || v.Description.ToLower().Contains(search.ToLower()));
             }
 
             return Ok(_mapper.Map<IEnumerable<VoucherReadDto>>(vouchers));
