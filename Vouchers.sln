@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vouchers", "Vouchers\Vouchers.csproj", "{181DF975-E693-4E5B-BD45-3F54CEC35C23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vouchers", "Vouchers\Vouchers.csproj", "{181DF975-E693-4E5B-BD45-3F54CEC35C23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D728DFFC-5280-4970-B2AA-F554326A5DB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vouchers.Tests", "tests\Vouchers.Tests\Vouchers.Tests.csproj", "{4F72CE12-DD3F-468D-B870-783B6E309B28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{181DF975-E693-4E5B-BD45-3F54CEC35C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{181DF975-E693-4E5B-BD45-3F54CEC35C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{181DF975-E693-4E5B-BD45-3F54CEC35C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F72CE12-DD3F-468D-B870-783B6E309B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F72CE12-DD3F-468D-B870-783B6E309B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F72CE12-DD3F-468D-B870-783B6E309B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F72CE12-DD3F-468D-B870-783B6E309B28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4F72CE12-DD3F-468D-B870-783B6E309B28} = {D728DFFC-5280-4970-B2AA-F554326A5DB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F5AC8A-7C54-4282-BD1E-51E9083A97BD}

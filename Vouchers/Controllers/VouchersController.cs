@@ -90,7 +90,7 @@ namespace Vouchers.Controllers
         }
 
         [HttpGet("{id}", Name = "GetVoucherById")]
-        public ActionResult<IEnumerable<VoucherReadDto>> GetVoucherById(int id)
+        public ActionResult<VoucherReadDto> GetVoucherById(int id)
         {
             var voucher = _repo.GetVoucherById(id);
 
@@ -106,7 +106,7 @@ namespace Vouchers.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult UpdateVoucher(int id, VoucherCreateDto voucherCreateDto)
         {
-            if (voucherCreateDto == null)
+            if (voucherCreateDto == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -136,7 +136,7 @@ namespace Vouchers.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult<VoucherReadDto> CreateVoucher(VoucherCreateDto voucherCreateDto)
         {
-            if (voucherCreateDto == null)
+            if (voucherCreateDto == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
